@@ -20,29 +20,43 @@ export default AuthBase;
 const AuthBaseComponent = styled.body`
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
+	justify-content: space-between;
 
 	width: 100%;
 	height: 100%;
+	min-height: 100%;
 
-	padding: 5px;
+	padding-inline: var(--padding-inline-page);
 
 	background-image: var(--background-image);
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
 
-	@media (min-width: 500px) {
-		padding-block: var(--padding-block-page);
-	}
-
 	& > article {
 		display: none;
 		flex-direction: column;
 		justify-content: center;
 
-		width: 100%;
+		width: 50%;
 		min-height: 100%;
+
+		padding-right: 4rem;
+
+		@media (min-width: 800px) {
+			display: flex;
+		}
+
+		& > h1 {
+			font-size: var(--font-size-large);
+			font-weight: var(--font-weight-bold);
+			color: var(--color-primary);
+		}
+
+		& > p {
+			font-size: var(--font-size-large);
+			color: var(--font-color-secondary);
+		}
 	}
 `;
 
@@ -53,7 +67,9 @@ const SideFormContainer = styled.section`
 
 	width: 100%;
 
-	background-color: rgba(0, 0, 0, 0.1);
+	@media (min-width: 800px) {
+		max-width: 20rem;
+	}
 
 	label,
 	label::before,

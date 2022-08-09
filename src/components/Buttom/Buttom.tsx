@@ -51,7 +51,9 @@ const ButtonComponent = styled.button<ButtonComponentProps>`
 	--margin-bottom: ${(props) => props.marginBottom};
 
 	width: 100%;
-	height: 2rem;
+	height: var(--height-input);
+	min-height: var(--height-input);
+
 	padding-inline: 1rem;
 	margin-bottom: var(--margin-bottom);
 

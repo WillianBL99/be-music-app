@@ -40,7 +40,7 @@ const PasswordInputComponent = styled.input<InputComponentProps>`
 	--margin-bottom: ${(props) => props.marginBottom};
 
 	width: 100%;
-	height: 2rem;
+	height: var(--height-input);
 
 	padding-left: 0.6rem;
 	margin-bottom: var(--margin-bottom);

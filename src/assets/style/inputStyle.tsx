@@ -12,8 +12,11 @@ const InputStyle = styled.div`
 		color: var(--font-color-secondary);
 	}
 
-	& > input:hover {
-		border: 1px solid var(--color-secondary);
+	& > input {
+		font-size: var(--font-size-base);
+		:hover {
+			border: 1px solid var(--color-secondary);
+		}
 	}
 
 	& > ::placeholder {

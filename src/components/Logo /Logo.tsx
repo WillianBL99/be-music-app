@@ -16,6 +16,9 @@ function Logo({ color = '--color-primary', size }: Props) {
 export default Logo;
 
 const LogoImg = styled.img<LogoComponent>`
+	--color: ${(props) => `var(${props.color})`};
+
+	color: var(--color);
 	background-image: var(--logo);
 	background-size: contain;
 	background-repeat: no-repeat;
