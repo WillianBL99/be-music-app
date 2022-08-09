@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import Button from '../../components/Buttom';
 import Input from '../../components/Input';
+import Link from '../../components/Link';
 import PasswordInput from '../../components/PasswordInput';
 import Select, { Options } from '../../components/Select';
 
@@ -107,11 +108,12 @@ function Register() {
 				name='password'
 				onChange={handleInputChange}
 				value={formData.password}
-				marginBottom='1.2rem'
+				marginBottom='calc(var(--font-size-small) + 1rem)'
 			/>
+			<Link to='/'>Já tenho uma conta</Link>
 			<Button
 				color='--color-primary'
-				text='Entrar'
+				text='Cadastrar'
 				st='solid'
 				marginBottom='0.8rem'
 			/>

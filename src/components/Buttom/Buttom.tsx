@@ -53,14 +53,14 @@ const ButtonComponent = styled.button<ButtonComponentProps>`
 	width: 100%;
 	height: var(--height-input);
 	min-height: var(--height-input);
-
-	padding-inline: 1rem;
 	margin-bottom: var(--margin-bottom);
 
 	background-color: var(--background);
 	color: var(--color);
 	border: var(--border);
 	border-radius: var(--border-radius-input);
+
+	font-size: var(--font-size-base);
 
 	&:hover {
 		--border: ${(props) =>

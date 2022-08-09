@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import Button from '../../components/Buttom';
 import Input from '../../components/Input';
+import Link from '../../components/Link';
 import PasswordInput from '../../components/PasswordInput';
 
 type FormData = {
@@ -37,6 +38,7 @@ function Login() {
 				value={formData.password}
 				marginBottom='calc(var(--font-size-small) + 1rem)'
 			/>
+			<Link to='/register'>Não tenho uma conta</Link>
 			<Button color='--color-primary' text='Entrar' st='solid' />
 		</form>
 	);
