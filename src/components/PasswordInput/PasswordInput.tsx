@@ -41,11 +41,8 @@ const PasswordInputComponent = styled.input<InputComponentProps>`
 
 	width: 100%;
 	height: var(--height-input);
-
-	padding-left: 0.6rem;
 	margin-bottom: var(--margin-bottom);
 
-	font-family: Verdana;
 	letter-spacing: 0.125em;
 	border-radius: var(--border-radius-input);
 	border: 1px solid var(--color);

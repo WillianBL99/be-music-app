@@ -43,7 +43,6 @@ const InputComponent = styled.input<InputComponentProps>`
 	width: 100%;
 	height: var(--height-input);
 
-	padding-left: 0.6rem;
 	margin-bottom: var(--margin-bottom);
 
 	border-radius: var(--border-radius-input);

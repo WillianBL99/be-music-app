@@ -11,7 +11,7 @@
 
 @media (min-height: 700px) {
 	* {
-		--height-input: 2rem;
+		--height-input: 5rem;
 	}
 }
 
