@@ -1,10 +1,11 @@
 import { ChangeEvent, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttom';
 import Input from '../../components/Input';
 import Link from '../../components/Link';
 import PasswordInput from '../../components/PasswordInput';
 import Select, { Options } from '../../components/Select';
-import api from '../../services/api';
+import api, { UserDataRegister } from '../../services/api';
 
 export interface FormDataInput {
 	name: string;
@@ -15,7 +16,7 @@ export interface FormDataInput {
 export interface FormDataSelect {
 	state: number;
 	city: number;
-	type: string;
+	type: 'instructor' | 'student' | '';
 }
 
 interface Region {
@@ -24,6 +25,7 @@ interface Region {
 }
 
 function Register() {
+	const navigate = useNavigate();
 	const [region, setRegion] = useState<Region>({
 		states: [],
 		cities: [],
@@ -75,6 +77,27 @@ function Register() {
 		}
 	}, []);
 
+	const handleSubmit = async (e: any) => {
+		e.preventDefault();
+		const dataSubmit: UserDataRegister = {
+			...formData,
+			...formDataSelect,
+		};
+
+		try {
+			await api.signUp(dataSubmit);
+			navigate('/');
+		} catch (error: any) {
+			if (error.response.status === 409) {
+				window.alert(
+					'Usuário já cadastrado\nFaça login ou registre outra conta'
+				);
+			} else {
+				window.alert('Erro ao cadastrar usuário');
+			}
+		}
+	};
+
 	useEffect(() => {
 		if (formDataSelect.state !== -1) {
 			try {
@@ -86,7 +109,7 @@ function Register() {
 	}, [formDataSelect.state]);
 
 	return (
-		<form onSubmit={() => {}}>
+		<form onSubmit={handleSubmit}>
 			<h1>Cadastro</h1>
 			<Input
 				name='name'
@@ -139,6 +162,7 @@ function Register() {
 			<Link to='/'>Já tenho uma conta</Link>
 			<Button
 				color='--color-primary'
+				type='submit'
 				text='Cadastrar'
 				st='solid'
 				marginBottom='0.8rem'
