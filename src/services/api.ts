@@ -35,4 +35,16 @@ async function login(data: UserDataLogin) {
 	return token;
 }
 
-export { signUp, login };
+async function getStates() {
+	const { data } = await baseAPI.get('/data/states');
+	return data;
+}
+
+function getCities(state: number) {
+	const promise = baseAPI.get(`/data/satate/${state}/cities`);
+	return promise;
+}
+
+const api = { signUp, login, getStates, getCities };
+
+export default api;

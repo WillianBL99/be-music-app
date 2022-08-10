@@ -1,30 +1,34 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import Button from '../../components/Buttom';
 import Input from '../../components/Input';
 import Link from '../../components/Link';
 import PasswordInput from '../../components/PasswordInput';
 import Select, { Options } from '../../components/Select';
+import api from '../../services/api';
 
-export type FormDataInput = {
+export interface FormDataInput {
 	name: string;
 	email: string;
 	password: string;
-};
+}
 
-export type FormDataSelect = {
+export interface FormDataSelect {
 	state: number;
 	city: number;
 	type: string;
-};
+}
+
+interface Region {
+	states: Options[];
+	cities: Options[];
+}
 
 function Register() {
-	const [region, setRegion] = useState<{
-		states: Options[];
-		cities: Options[];
-	}>({
+	const [region, setRegion] = useState<Region>({
 		states: [],
 		cities: [],
 	});
+
 	const types: Options[] = [
 		{ value: 'instructor', label: 'Instrutor' },
 		{ value: 'student', label: 'Aluno' },
@@ -47,17 +51,29 @@ function Register() {
 		setFormData({ ...formData, [name]: value });
 	};
 
-	const handleSelectState = (e: any) => {
-		setFormDataSelect({ ...formDataSelect, state: e.value });
+	const handleSelect = (name: string) => {
+		return (e: any) => {
+			setFormDataSelect({ ...formDataSelect, [name]: e.value });
+		};
 	};
 
-	const handleSelectCity = (e: any) => {
-		setFormDataSelect({ ...formDataSelect, city: e.value });
-	};
+	console.log({ states: region.states });
 
-	const handleSelectType = (e: any) => {
-		setFormDataSelect({ ...formDataSelect, type: e.value });
-	};
+	useEffect(() => {
+		api
+			.getStates()
+			.then((promise) => {
+				console.log({ promise });
+				const states = promise.states.map((fullState: any) => ({
+					value: fullState.id,
+					label: fullState.nome,
+				}));
+				setRegion({ ...region, states });
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
 
 	return (
 		<form onSubmit={() => {}}>
@@ -84,7 +100,7 @@ function Register() {
 				lable='Estado'
 				options={region.states}
 				placeholder='Estado'
-				onChange={handleSelectState}
+				onChange={handleSelect('state')}
 			/>
 			<Select
 				name='city'
@@ -92,7 +108,7 @@ function Register() {
 				lable='Cidade'
 				options={region.cities}
 				placeholder='Cidade'
-				onChange={handleSelectCity}
+				onChange={handleSelect('city')}
 			/>
 
 			<Select
@@ -101,7 +117,7 @@ function Register() {
 				lable='Tipo'
 				options={types}
 				placeholder='Tipo'
-				onChange={handleSelectType}
+				onChange={handleSelect('type')}
 			/>
 			<PasswordInput
 				lable={'Senha'}

@@ -30,7 +30,7 @@ function AuthProvider({ children }: Props) {
 
 	return (
 		<AuthContext.Provider value={{ token, signIn, signOut }}>
-			export children
+			{children}
 		</AuthContext.Provider>
 	);
 }
