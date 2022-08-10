@@ -57,23 +57,33 @@ function Register() {
 		};
 	};
 
-	console.log({ states: region.states });
+	const handleGetStates = async () => {
+		const states = await api.getStates();
+		setRegion({ ...region, states });
+	};
+
+	const handleGetCities = async () => {
+		const cities = await api.getCities(formDataSelect.state);
+		setRegion({ ...region, cities });
+	};
 
 	useEffect(() => {
-		api
-			.getStates()
-			.then((promise) => {
-				console.log({ promise });
-				const states = promise.states.map((fullState: any) => ({
-					value: fullState.id,
-					label: fullState.nome,
-				}));
-				setRegion({ ...region, states });
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		try {
+			handleGetStates();
+		} catch (error) {
+			console.log(error);
+		}
 	}, []);
+
+	useEffect(() => {
+		if (formDataSelect.state !== -1) {
+			try {
+				handleGetCities();
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	}, [formDataSelect.state]);
 
 	return (
 		<form onSubmit={() => {}}>

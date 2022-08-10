@@ -35,14 +35,22 @@ async function login(data: UserDataLogin) {
 	return token;
 }
 
-async function getStates() {
+async function getStates(): Promise<[]> {
 	const { data } = await baseAPI.get('/data/states');
-	return data;
+	const states = data.states.map((state: any) => ({
+		value: state.id,
+		label: state.nome,
+	}));
+	return states;
 }
 
-function getCities(state: number) {
-	const promise = baseAPI.get(`/data/satate/${state}/cities`);
-	return promise;
+async function getCities(state: number): Promise<[]> {
+	const { data } = await baseAPI.get(`/data/states/${state}/cities`);
+	const cities = data.cities.map((city: any) => ({
+		value: city.id,
+		label: city.nome,
+	}));
+	return cities;
 }
 
 const api = { signUp, login, getStates, getCities };

@@ -47,6 +47,4 @@ const InputComponent = styled.input<InputComponentProps>`
 
 	border-radius: var(--border-radius-input);
 	border: 1px solid var(--color);
-
-	background-color: 'transparent';
 `;
