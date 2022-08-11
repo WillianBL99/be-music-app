@@ -27,6 +27,7 @@ function Input(props: Props) {
 				color={color}
 				placeholder={lable}
 				marginBottom={marginBottom}
+				required
 			/>
 		</InputContainer>
 	);

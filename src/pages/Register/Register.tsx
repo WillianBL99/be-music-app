@@ -142,6 +142,7 @@ function Register() {
 				options={region.cities}
 				placeholder='Cidade'
 				onChange={handleSelect('city')}
+				disabled={formDataSelect.state === -1}
 			/>
 
 			<Select

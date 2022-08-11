@@ -10,10 +10,11 @@
 	--color-primary: #141b45;
 	--color-secondary: #3d77ff;
 	--color-tertiary: #5c5d94;
-	--background-color: #e6e6e6;
+	--color-base: #e6e6e6;
 
 	--background-image: url('../images/background.svg');
 	--logo: url('../images/logo.svg');
+	--logo-inline: url('../images/logo-inline.svg');
 
 	--color-primary-dark: #392929;
 	--color-secondary-dark: #392929;
@@ -32,7 +33,7 @@
 
 	--font-color-primary: #090914;
 	--font-color-secondary: #10101b;
-	--font-color-tertiary: #18181f;
+	--font-color-tertiary: #5c5d94;
 
 	--padding-inline-page: 5px;
 

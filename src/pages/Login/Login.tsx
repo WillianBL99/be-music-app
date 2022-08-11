@@ -1,8 +1,11 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEventHandler, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttom';
 import Input from '../../components/Input';
 import Link from '../../components/Link';
 import PasswordInput from '../../components/PasswordInput';
+import useAuth from '../../hooks/useAuth';
+import api from '../../services/api';
 
 type FormData = {
 	email: string;
@@ -10,6 +13,8 @@ type FormData = {
 };
 
 function Login() {
+	const navigate = useNavigate();
+	const { signIn } = useAuth();
 	const [formData, setFormData] = useState<FormData>({
 		email: '',
 		password: '',
@@ -20,8 +25,24 @@ function Login() {
 		setFormData({ ...formData, [name]: value });
 	};
 
+	const handleSubmit = async (e: any) => {
+		e.preventDefault();
+		try {
+			const { token } = await api.signIn(formData);
+			console.log({ token });
+			signIn(token);
+			navigate('app');
+		} catch (error: any) {
+			if (error.response.status === 401) {
+				alert('Usuário ou senha inválidos');
+			} else {
+				alert('Erro ao fazer login');
+			}
+		}
+	};
+
 	return (
-		<form onSubmit={() => {}}>
+		<form onSubmit={handleSubmit}>
 			<h1>Login</h1>
 			<Input
 				name='email'
@@ -39,7 +60,7 @@ function Login() {
 				marginBottom='calc(var(--font-size-small) + 1rem)'
 			/>
 			<Link to='/register'>Não tenho uma conta</Link>
-			<Button color='--color-primary' text='Entrar' st='solid' />
+			<Button type='submit' color='--color-primary' text='Entrar' st='solid' />
 		</form>
 	);
 }

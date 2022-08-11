@@ -18,11 +18,20 @@ export type Props = {
 	placeholder: string;
 	lable: string;
 	value: any;
+	disabled?: boolean;
 	onChange: (e: any) => void;
 };
 
 function Select(props: Props) {
-	const { name, options, placeholder, onChange, lable, value } = props;
+	const {
+		disabled = false,
+		name,
+		options,
+		placeholder,
+		onChange,
+		lable,
+		value,
+	} = props;
 
 	const inputLable =
 		!value || value < 0 ? <></> : <label htmlFor={name}>{lable}</label>;
@@ -36,6 +45,7 @@ function Select(props: Props) {
 				onChange={onChange}
 				tabSelectsValue={true}
 				isSearchable={true}
+				isDisabled={disabled}
 			/>
 		</SelectContainer>
 	);
