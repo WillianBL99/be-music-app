@@ -65,6 +65,7 @@ const Logo = styled.div`
 	width: 9rem;
 	height: 2rem;
 
+	cursor: pointer;
 	border-right: 1px solid var(--color-primary);
 
 	background-image: var(--logo-inline);
