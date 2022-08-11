@@ -1,0 +1,28 @@
+@media (max-height: 350px) and (orientation: portrait) {
+	#root {
+		min-height: 100vh;
+	}
+
+	body {
+		min-height: 100%;
+		overflow-y: scroll;
+	}
+}
+
+@media (min-height: 700px) {
+	* {
+		--height-input: 5rem;
+	}
+}
+
+@media (min-width: 500px) {
+	* {
+		--padding-inline-page: 2.5rem;
+	}
+}
+
+@media (min-width: 700px) {
+	* {
+		--padding-inline-page: 5rem;
+	}
+}
