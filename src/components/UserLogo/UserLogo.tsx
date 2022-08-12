@@ -29,7 +29,7 @@ function UserLogo(props: UserProps) {
 export default UserLogo;
 
 const UserContainer = styled.div<UserProps>`
-	--size: ${(props) => props.size || '3rem'};
+	--size: ${(props) => props.size || 'var(--font-size-large)'};
 	--display-title: ${(props) => (props.displayTitle ? 'block' : 'none')};
 	--display-describe: ${(props) => (props.displayDescribe ? 'block' : 'none')};
 
