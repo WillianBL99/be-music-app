@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import HeartIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import CommentIcon from '@mui/icons-material/TextsmsOutlined';
 import InfoIcon from '@mui/icons-material/InfoOutlined';
-import UserLogo from '../UserLogo';
+import UserLogo from '../../UserLogo';
+import MessagesContainer from '../Messages';
 
 function Plan() {
 	return (
@@ -23,6 +24,7 @@ function Plan() {
 				</div>
 				<button>Rquerir</button>
 			</section>
+			<MessagesContainer />
 		</PlanContainer>
 	);
 }
@@ -38,6 +40,7 @@ const PlanContainer = styled.article`
 	height: auto;
 
 	overflow: hidden;
+	position: relative;
 	border-radius: var(--border-radius-base);
 
 	box-shadow: 0px 0px 10px -3px rgba(0, 0, 0, 0.2);

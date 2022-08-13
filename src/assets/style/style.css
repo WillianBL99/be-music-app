@@ -11,6 +11,9 @@
 	--color-secondary: #3456ff;
 	--color-tertiary: #f8f8fa;
 	--color-base: #ffffff;
+
+	--color-low-opacity: #ebebeb;
+
 	--color-hover-primary: #2c36c4;
 	--color-hover-secondary: #8095ff;
 
@@ -33,8 +36,8 @@
 	--height-input: 4rem;
 
 	--font-color-primary: #070928;
-	--font-color-secondary: #121219;
-	--font-color-tertiary: #1a1a1d;
+	--font-color-secondary: #18181e;
+	--font-color-tertiary: #212123;
 
 	--padding-inline-page: 5px;
 
@@ -44,6 +47,7 @@
 html {
 	--base-size: 62.5%;
 	font-size: calc(var(--base-size) * 0.75);
+	font-weight: var(--font-weight-normal);
 }
 
 body {
@@ -55,7 +59,6 @@ body {
 	font-family: var(--font-family-main);
 	background-color: var(--background-color);
 	color: var(--font-color-primary);
-	font-weight: var(--font-weight-normal);
 }
 
 #root {
