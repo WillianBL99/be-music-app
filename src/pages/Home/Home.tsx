@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import UserLogo from '../../components/UserLogo';
 import Plan from '../../components/PlansComponents/Plan';
 import Header from '../../components/PlansComponents/Header';
 

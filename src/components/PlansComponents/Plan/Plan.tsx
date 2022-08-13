@@ -26,7 +26,7 @@ function Plan() {
 				<button>Rquerir</button>
 			</section>
 			{/* <MessagesContainer /> */}
-			<Info />
+			{/* <Info /> */}
 		</PlanContainer>
 	);
 }
