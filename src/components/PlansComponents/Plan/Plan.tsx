@@ -4,6 +4,7 @@ import CommentIcon from '@mui/icons-material/TextsmsOutlined';
 import InfoIcon from '@mui/icons-material/InfoOutlined';
 import UserLogo from '../../UserLogo';
 import MessagesContainer from '../Messages';
+import Info from '../Info';
 
 function Plan() {
 	return (
@@ -24,7 +25,8 @@ function Plan() {
 				</div>
 				<button>Rquerir</button>
 			</section>
-			<MessagesContainer />
+			{/* <MessagesContainer /> */}
+			<Info />
 		</PlanContainer>
 	);
 }

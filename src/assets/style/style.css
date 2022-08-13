@@ -46,7 +46,7 @@
 
 html {
 	--base-size: 62.5%;
-	font-size: calc(var(--base-size) * 0.75);
+	font-size: calc(var(--base-size) * 1);
 	font-weight: var(--font-weight-normal);
 }
 
