@@ -33,6 +33,8 @@ const AppBaseContainer = styled.div`
 		overflow: hidden;
 		overflow-y: auto;
 
+		background-color: var(--color-tertiary);
+
 		&::-webkit-scrollbar {
 			width: 5px;
 

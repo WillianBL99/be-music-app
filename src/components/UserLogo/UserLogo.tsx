@@ -5,22 +5,18 @@ const userImg =
 
 interface UserProps {
 	size?: string;
-	displayTitle?: boolean;
-	displayDescribe?: boolean;
+	title?: string;
+	describe?: string;
 }
 
 function UserLogo(props: UserProps) {
-	const { size, displayTitle, displayDescribe } = props;
+	const { size, title, describe } = props;
 	return (
-		<UserContainer
-			size={size}
-			displayTitle={displayTitle}
-			displayDescribe={displayDescribe}
-		>
+		<UserContainer size={size} title={title} describe={describe}>
 			<img src={userImg} alt='user-logo' />
 			<div className='describe'>
-				<h4>User Name</h4>
-				<p>20 likes</p>
+				<h4>{title}</h4>
+				<p>{describe}</p>
 			</div>
 		</UserContainer>
 	);
@@ -30,8 +26,8 @@ export default UserLogo;
 
 const UserContainer = styled.div<UserProps>`
 	--size: ${(props) => props.size || 'var(--font-size-large)'};
-	--display-title: ${(props) => (props.displayTitle ? 'block' : 'none')};
-	--display-describe: ${(props) => (props.displayDescribe ? 'block' : 'none')};
+	--display-title: ${(props) => (props.title ? 'block' : 'none')};
+	--display-describe: ${(props) => (props.describe ? 'block' : 'none')};
 
 	display: flex;
 	align-items: center;

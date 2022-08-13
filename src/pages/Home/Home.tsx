@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import UserLogo from '../../components/UserLogo';
+import Plan from '../../components/Plan';
 
 function Home() {
 	return (
-		<div>
+		<HomeContainer>
 			<InstructorHeaderProfileContainer>
 				<section>
-					<UserLogo size='4.2rem' displayDescribe={true} displayTitle={true} />
+					<UserLogo size='4.2rem' title='Joãozinho' describe='20 likes' />
 					<button>Novo plano</button>
 				</section>
 				<section>
@@ -18,13 +19,22 @@ function Home() {
 				</section>
 			</InstructorHeaderProfileContainer>
 			<InstructorBodyProfileContainer>
-				<PlanContainer></PlanContainer>
+				<Plan />
+				<Plan />
+				<Plan />
+				<Plan />
+				<Plan />
+				<Plan />
 			</InstructorBodyProfileContainer>
-		</div>
+		</HomeContainer>
 	);
 }
 
 export default Home;
+
+const HomeContainer = styled.div`
+	background-color: var(--color-tertiary);
+`;
 
 const InstructorHeaderProfileContainer = styled.article`
 	display: flex;
@@ -34,6 +44,7 @@ const InstructorHeaderProfileContainer = styled.article`
 	height: auto;
 
 	margin-block: 2rem;
+	background-color: var(--color-tertiary);
 
 	& > section {
 		display: flex;
@@ -42,6 +53,22 @@ const InstructorHeaderProfileContainer = styled.article`
 		align-items: center;
 		width: 100%;
 		height: auto;
+
+		& > button {
+			border: none;
+			padding: 0.5rem 2.5rem;
+			border-radius: calc(var(--border-radius-base) * 0.5);
+
+			cursor: pointer;
+
+			font-size: var(--font-size-tiny);
+			color: var(--color-base);
+			background-color: var(--color-secondary);
+
+			&:hover {
+				background-color: var(--color-hover-secondary);
+			}
+		}
 	}
 
 	& > section:last-child {
@@ -55,21 +82,14 @@ const InstructorHeaderProfileContainer = styled.article`
 `;
 
 const InstructorBodyProfileContainer = styled.section`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: flex-start;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr));
+	grid-gap: 2rem;
+
 	width: 100%;
 	height: auto;
-`;
 
-const PlanContainer = styled.article`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: flex-start;
-	width: 3rem;
-	height: 3rem;
+	padding-block: 2.5rem;
 
-	background-color: blue;
+	border-top: 1px solid var(--color-primary);
 `;

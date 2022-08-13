@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import styled from 'styled-components';
 import useHeader from '../../hooks/useHeader';
 
@@ -13,7 +12,6 @@ function Header() {
 
 	const handleChangePage = (e: any) => {
 		const value = e.target.attributes.value.nodeValue;
-		console.log({ cur: e.target, cur2: e.target.attributes.value.nodeValue });
 		setCurrentPage(value);
 	};
 
@@ -68,14 +66,14 @@ const HeaderContainer = styled.header`
 
 		width: auto;
 		& > .selected {
-			color: var(--color-primary);
+			color: var(--color-secondary);
 
 			&::after {
 				content: '';
 				display: block;
 				width: 100%;
 				height: 1px;
-				background-color: var(--color-primary);
+				background-color: var(--color-secondary);
 				margin-top: 0.3rem;
 			}
 		}
@@ -88,6 +86,7 @@ const Logo = styled.div`
 
 	cursor: pointer;
 	border-right: 1px solid var(--color-primary);
+	color: var(--color-secondary);
 
 	background-image: var(--logo-inline);
 	object-fit: contain;
@@ -101,9 +100,9 @@ const Option = styled.li`
 	cursor: pointer;
 	list-style: none;
 	font-size: var(--font-size-small);
-	color: var(--font-color-tertiary);
+	color: var(--color-primary);
 
 	:hover {
-		color: var(--color-primary);
+		color: var(--color-secondary);
 	}
 `;
