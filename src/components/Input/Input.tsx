@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import InputStyle from '../../assets/style/inputStyle';
 
 export type Props = {
-	onChange: any;
-	value: string;
-	lable: string;
-	type: string;
-	name: string;
+	onChange?: any;
+	value?: string;
+	lable?: string;
+	type?: string;
+	name?: string;
 	color?: any;
 	marginBottom?: string;
 };
@@ -27,6 +27,7 @@ function Input(props: Props) {
 				color={color}
 				placeholder={lable}
 				marginBottom={marginBottom}
+				required
 			/>
 		</InputContainer>
 	);

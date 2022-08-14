@@ -53,6 +53,6 @@ async function getCities(state: number): Promise<[]> {
 	return cities;
 }
 
-const api = { signUp, login: signIn, getStates, getCities };
+const api = { signUp, signIn, getStates, getCities };
 
 export default api;

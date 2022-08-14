@@ -7,40 +7,47 @@
 	--font-family-logo: 'Lexend Deca', sans-serif;
 	--font-family-main: 'Lexend Deca', sans-serif;
 
-	--color-primary: #141b45;
-	--color-secondary: #3d77ff;
-	--color-tertiary: #5c5d94;
-	--background-color: #e6e6e6;
+	--color-primary: #070928;
+	--color-secondary: #3456ff;
+	--color-tertiary: #f8f8fa;
+	--color-base: #ffffff;
+
+	--color-low-opacity: #ebebeb;
+
+	--color-hover-primary: #2c36c4;
+	--color-hover-secondary: #8095ff;
 
 	--background-image: url('../images/background.svg');
 	--logo: url('../images/logo.svg');
-
-	--color-primary-dark: #392929;
-	--color-secondary-dark: #392929;
-	--color-tertiary-dark: #392929;
+	--logo-inline: url('../images/logo-inline.svg');
 
 	--font-size-large: 3rem;
 	--font-size-base: 2rem;
 	--font-size-small: 1.5rem;
+	--font-size-tiny: 1.2rem;
 
 	--font-weight-light: 300;
 	--font-weight-normal: 400;
 	--font-weight-bold: 700;
 
-	--border-radius-base: 15px;
-	--border-radius-input: 5px;
+	--border-radius-base: 0.8rem;
 
-	--font-color-primary: #090914;
-	--font-color-secondary: #10101b;
-	--font-color-tertiary: #18181f;
+	--border-radius-input: 5px;
+	--height-input: 4rem;
+
+	--font-color-primary: #070928;
+	--font-color-secondary: #18181e;
+	--font-color-tertiary: #212123;
 
 	--padding-inline-page: 5px;
 
-	--height-input: 4rem;
+	--shadow-base: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 html {
-	font-size: 62.5%;
+	--base-size: 62.5%;
+	font-size: calc(var(--base-size) * 1);
+	font-weight: var(--font-weight-normal);
 }
 
 body {
@@ -52,7 +59,6 @@ body {
 	font-family: var(--font-family-main);
 	background-color: var(--background-color);
 	color: var(--font-color-primary);
-	font-weight: var(--font-weight-normal);
 }
 
 #root {
