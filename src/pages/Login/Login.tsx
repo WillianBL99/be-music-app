@@ -1,4 +1,5 @@
-import { ChangeEvent, FormEventHandler, useState } from 'react';
+import React from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttom';
 import Input from '../../components/Input';
@@ -31,7 +32,7 @@ function Login() {
 			const { token } = await api.signIn(formData);
 			console.log({ token });
 			signIn(token);
-			navigate('app');
+			navigate('app/home');
 		} catch (error: any) {
 			if (error.response.status === 401) {
 				alert('Usuário ou senha inválidos');

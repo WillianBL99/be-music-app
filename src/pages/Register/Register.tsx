@@ -1,3 +1,4 @@
+import React from 'react';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttom';
@@ -81,7 +82,8 @@ function Register() {
 		e.preventDefault();
 		const dataSubmit: UserDataRegister = {
 			...formData,
-			...formDataSelect,
+			city: formDataSelect.city,
+			type: formDataSelect.type,
 		};
 
 		try {
