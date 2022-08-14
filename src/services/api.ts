@@ -7,7 +7,6 @@ const baseAPI = axios.create({
 export interface UserDataRegister {
 	name: string;
 	email: string;
-	state: number;
 	city: number;
 	type: 'instructor' | 'student' | '';
 	password: string;
