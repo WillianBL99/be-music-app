@@ -13,13 +13,13 @@ import styled from 'styled-components';
 export type Options = { value: any; label: string };
 
 export type Props = {
-	name: string;
+	name?: string;
 	options: Options[] | [];
-	placeholder: string;
-	lable: string;
-	value: any;
+	placeholder?: string;
+	lable?: string;
+	value?: any;
 	disabled?: boolean;
-	onChange: (e: any) => void;
+	onChange?: (e: any) => void;
 };
 
 function Select(props: Props) {

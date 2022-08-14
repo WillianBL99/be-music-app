@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 import Backdrop from '../../Backdrop';
 import UserLogo from '../../UserLogo';
+import CreatePlan from '../CreatePlan';
 
 function Header() {
 	return (
 		<InstructorHeaderProfileContainer>
-			<Backdrop />
+			<Backdrop>
+				<CreatePlan />
+			</Backdrop>
 			<section>
 				<UserLogo size='4.2rem' title='Joãozinho' describe='20 likes' />
 				<button>Novo plano</button>
