@@ -19,7 +19,6 @@ function Header() {
 		const optionsName = Object.keys(pages);
 
 		return optionsName.map((option) => {
-			console.log({ currentPage, option });
 			const selected = currentPage === option ? 'selected' : '';
 			return (
 				<Option

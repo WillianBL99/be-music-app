@@ -6,17 +6,56 @@ import UserLogo from '../../UserLogo';
 import MessagesContainer from '../Messages';
 import Info from '../Info';
 
-function Plan() {
+export interface Comment {
+	id: number;
+	comment: string;
+	createdAt: string;
+	planId: number;
+	userId: number;
+	User: {
+		image: string;
+		name: string;
+	};
+}
+
+export interface PlanProps {
+	Instructor: {
+		id: number;
+		name: string;
+		image: string;
+	};
+	Comments: Comment[];
+	image: string;
+	description: string;
+	classLevel: string;
+	classType: string;
+	instrument: string;
+	AvailableDay: any;
+}
+
+function Plan(props: PlanProps) {
+	const {
+		Instructor,
+		Comments,
+		image,
+		description,
+		classLevel,
+		classType,
+		instrument,
+		AvailableDay,
+	} = props;
+
+	const { id, image: userImage, name: userName } = Instructor;
+
 	return (
-		<PlanContainer>
+		<PlanContainer id={`${id}`}>
 			<section className='header'>
-				<UserLogo size='3rem' title='Mariazinha' />
-				<p>Aulas individuais</p>
+				<UserLogo image={userImage} size='3.5rem' title={userName} />
+				<p>{classType}</p>
 			</section>
-			<img
-				src='https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'
-				alt='user-logo'
-			/>
+			<div className='img'>
+				<img src={image} alt='banner do plano' />
+			</div>
 			<section className='footer'>
 				<div className='actions'>
 					<HeartIcon />
@@ -25,8 +64,13 @@ function Plan() {
 				</div>
 				<button>Rquerir</button>
 			</section>
-			{/* <MessagesContainer /> */}
-			{/* <Info /> */}
+			<MessagesContainer listComments={Comments} />
+			<Info
+				description={description}
+				classLevel={classLevel}
+				instrument={instrument}
+				availableDays={AvailableDay}
+			/>
 		</PlanContainer>
 	);
 }
@@ -61,20 +105,25 @@ const PlanContainer = styled.article`
 		background-color: var(--color-tertiary);
 
 		& > p {
-			font-size: var(--font-size-tiny);
+			font-size: var(--font-size-small);
 			color: var(--font-color-primary);
 		}
 	}
 
-	& > img {
+	& > .img {
 		--height: calc(20px + 1px);
 		width: 100%;
 		aspect-ratio: calc(16 / 9);
+		overflow: hidden;
 
-		object-fit: cover;
-		background-size: cover;
-		background-position: center;
-		background-repeat: no-repeat;
+		& > img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
 	}
 
 	& > .footer {

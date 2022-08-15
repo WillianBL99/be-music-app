@@ -1,19 +1,19 @@
 import styled from 'styled-components';
 
-const userImg =
-	'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200';
-
-interface UserProps {
+interface Props {
+	image: string;
 	size?: string;
 	title?: string;
 	describe?: string;
 }
 
-function UserLogo(props: UserProps) {
-	const { size, title, describe } = props;
+type PropsContainer = Omit<Props, 'image'>;
+
+function UserLogo(props: Props) {
+	const { size, image, title, describe } = props;
 	return (
 		<UserContainer size={size} title={title} describe={describe}>
-			<img src={userImg} alt='user-logo' />
+			<img src={image} alt='user-logo' />
 			<div className='describe'>
 				<h4>{title}</h4>
 				<p>{describe}</p>
@@ -24,7 +24,7 @@ function UserLogo(props: UserProps) {
 
 export default UserLogo;
 
-const UserContainer = styled.div<UserProps>`
+const UserContainer = styled.div<PropsContainer>`
 	--size: ${(props) => props.size || 'var(--font-size-large)'};
 	--display-title: ${(props) => (props.title ? 'block' : 'none')};
 	--display-describe: ${(props) => (props.describe ? 'block' : 'none')};

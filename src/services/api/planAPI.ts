@@ -19,9 +19,15 @@ async function getInstruments(headers: any) {
 	return response.data;
 }
 
+async function getPlans(headers: any) {
+	const response = await baseAPI.get('/plans', headers);
+	return response.data;
+}
+
 const planAPI = {
 	postPlan,
 	getInstruments,
+	getPlans,
 };
 
 export default planAPI;

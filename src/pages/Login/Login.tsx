@@ -30,7 +30,6 @@ function Login() {
 		e.preventDefault();
 		try {
 			const { token } = await api.signIn(formData);
-			console.log({ token });
 			signIn(token);
 			navigate('app/home');
 		} catch (error: any) {

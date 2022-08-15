@@ -9,7 +9,12 @@ function Header({ createPlan }: Props) {
 	return (
 		<InstructorHeaderProfileContainer>
 			<section>
-				<UserLogo size='4.2rem' title='Joãozinho' describe='20 likes' />
+				<UserLogo
+					image='https://europe.yamaha.com/en/files/eg-top-banner-01-770x750_7248009f0c721e107688cfecc9b74d88.jpg?impolicy=resize&imwid=770&imhei=750'
+					size='4.2rem'
+					title='Joãozinho'
+					describe='20 likes'
+				/>
 				<button onClick={createPlan}>Novo plano</button>
 			</section>
 			<section>

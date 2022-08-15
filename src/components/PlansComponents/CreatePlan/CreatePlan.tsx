@@ -87,7 +87,6 @@ function CreatePlan({ hiddenBackdrop }: Props) {
 			value: instrument,
 			label: instrument,
 		}));
-		console.log(instruments);
 		setSelectValues({ ...selectValues, instruments });
 	};
 

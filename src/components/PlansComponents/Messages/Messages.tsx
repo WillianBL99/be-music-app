@@ -2,13 +2,24 @@ import SendIcon from '@mui/icons-material/SendOutlined';
 import styled from 'styled-components';
 import UserLogo from '../../UserLogo';
 import Message from '../Message/Message';
+import { Comment } from '../Plan/Plan';
 
-function Messages() {
+type ListComments = {
+	listComments: Comment[];
+};
+
+function Messages({ listComments }: ListComments) {
+	const assembleMessages = () => {
+		return listComments.map((comment) => (
+			<Message key={comment.id} comment={comment} />
+		));
+	};
+
 	return (
 		<MessagesContainer>
-			<Message />
+			{assembleMessages()}
 			<InputMessageContainer>
-				<UserLogo />
+				<UserLogo image='https://europe.yamaha.com/en/files/eg-top-banner-01-770x750_7248009f0c721e107688cfecc9b74d88.jpg?impolicy=resize&imwid=770&imhei=750' />
 				<div className='input'>
 					<input type='text' placeholder='Digite sua mensagem...' />
 					<SendIcon color='disabled' />
