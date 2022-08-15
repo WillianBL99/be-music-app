@@ -6,7 +6,11 @@ import planAPI, { Plan } from '../../../services/api/planAPI';
 import Input from '../../Input';
 import Select from '../../Select';
 
-function CreatePlan() {
+interface Props {
+	hiddenBackdrop: () => void;
+}
+
+function CreatePlan({ hiddenBackdrop }: Props) {
 	const { token } = useAuth();
 	const config = parseHeader(token as string);
 
@@ -70,6 +74,7 @@ function CreatePlan() {
 
 		try {
 			await planAPI.postPlan(formValues, config);
+			hiddenBackdrop();
 		} catch (error: any) {
 			window.alert(error.message);
 			console.log(error);
@@ -134,7 +139,7 @@ function CreatePlan() {
 					<div className='days'>{assemblyDays()}</div>
 				</div>
 				<div className='comands'>
-					<button className='cancel' type='submit'>
+					<button className='cancel' onClick={hiddenBackdrop}>
 						Cancelar
 					</button>
 					<button className='create' type='submit'>

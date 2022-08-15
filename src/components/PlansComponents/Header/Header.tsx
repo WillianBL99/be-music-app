@@ -1,17 +1,16 @@
 import styled from 'styled-components';
-import Backdrop from '../../Backdrop';
 import UserLogo from '../../UserLogo';
-import CreatePlan from '../CreatePlan';
 
-function Header() {
+interface Props {
+	createPlan: () => void;
+}
+
+function Header({ createPlan }: Props) {
 	return (
 		<InstructorHeaderProfileContainer>
-			<Backdrop>
-				<CreatePlan />
-			</Backdrop>
 			<section>
 				<UserLogo size='4.2rem' title='Joãozinho' describe='20 likes' />
-				<button>Novo plano</button>
+				<button onClick={createPlan}>Novo plano</button>
 			</section>
 			<section>
 				<p>
