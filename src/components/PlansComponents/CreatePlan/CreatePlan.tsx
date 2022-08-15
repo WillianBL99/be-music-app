@@ -1,22 +1,54 @@
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import useAuth from '../../../hooks/useAuth';
+import { parseHeader } from '../../../services/api/baseAPI';
+import planAPI, { Plan } from '../../../services/api/planAPI';
 import Input from '../../Input';
 import Select from '../../Select';
 
 function CreatePlan() {
-	const instruments = [
-		{ value: 'guitar', label: 'Guitar' },
-		{ value: 'piano', label: 'Piano' },
-	];
-	const levels = [
-		{ value: 'beginner', label: 'Iniciante' },
-		{ value: 'intermediate', label: 'Intermediário' },
-		{ value: 'advanced', label: 'Avançado' },
-	];
+	const { token } = useAuth();
+	const config = parseHeader(token as string);
 
-	const qtdStudents = [
-		{ value: 'individual', label: 'Individual' },
-		{ value: 'group', label: 'Grupo' },
-	];
+	const [selectValues, setSelectValues] = useState({
+		instruments: [],
+		levels: [
+			{ value: 'beginner', label: 'Iniciante' },
+			{ value: 'intermediate', label: 'Intermediário' },
+			{ value: 'advanced', label: 'Avançado' },
+		],
+		qtdStudents: [
+			{ value: 'individual', label: 'Individual' },
+			{ value: 'group', label: 'Grupo' },
+		],
+	});
+
+	const [formValues, setFormValues] = useState<Plan>({
+		image: '',
+		description: '',
+		classLevel: 'beginner',
+		classType: 'private',
+		instrument: '',
+		availableDays: [0, 0, 0, 0, 0, 0, 0],
+	});
+
+	const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setFormValues({ ...formValues, [name]: value });
+	};
+
+	const handleSelect = (name: string) => {
+		return (e: any) => {
+			setFormValues({ ...formValues, [name]: e.value });
+		};
+	};
+
+	const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { value, checked } = e.target;
+		const newDays = [...formValues.availableDays] as any;
+		newDays[value] = checked ? 1 : 0;
+		setFormValues({ ...formValues, availableDays: newDays });
+	};
 
 	const assemblyDays = (): JSX.Element[] => {
 		const days = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
@@ -24,34 +56,72 @@ function CreatePlan() {
 		return days.map((day, idx) => (
 			<div className='day'>
 				<p>{day}</p>
-				<input type='checkbox' value={idx.toString()} />
+				<input
+					type='checkbox'
+					onChange={handleCheckbox}
+					value={idx.toString()}
+				/>
 			</div>
 		));
 	};
 
+	const handlePostForm = async (e: any) => {
+		e.preventDefault();
+		console.log(formValues);
+	};
+
+	const handleGetInstruments = async () => {
+		const data = await planAPI.getInstruments(config);
+		const instruments = data.instruments.map((instrument: any) => ({
+			value: instrument,
+			label: instrument,
+		}));
+		console.log(instruments);
+		setSelectValues({ ...selectValues, instruments });
+	};
+
+	useEffect(() => {
+		handleGetInstruments();
+	}, []);
+
 	return (
 		<CreatePlanContainer>
 			<p>Criar novo plano</p>
-			<form>
-				<Input type='text' lable='Banner' />
-				<Input type='text' lable='Descricão' />
+			<form onSubmit={handlePostForm}>
+				<Input
+					type='text'
+					lable='Banner'
+					onChange={handleInput}
+					value={formValues.image}
+					name={'image'}
+				/>
+				<Input
+					type='text'
+					lable='Descricão'
+					onChange={handleInput}
+					value={formValues.description}
+					name={'description'}
+				/>
 				<Select
 					lable='Nível'
 					name='level'
 					placeholder='Selecione o nível'
-					options={levels}
+					options={selectValues.levels}
+					onChange={handleSelect('level')}
 				/>
 				<Select
 					lable='Instrumento'
 					name='instrument'
 					placeholder='Selecione um instrumento'
-					options={instruments}
+					options={selectValues.instruments}
+					onChange={handleSelect('instruments')}
 				/>
 				<Select
 					lable='Quantidade de alunos'
 					name='qtdStudents'
 					placeholder='Selecione'
-					options={qtdStudents}
+					options={selectValues.qtdStudents}
+					onChange={handleSelect('qtdStudents')}
 				/>
 				<div className='available-days'>
 					<p>Dias disponíveis:</p>

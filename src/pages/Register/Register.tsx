@@ -6,7 +6,7 @@ import Input from '../../components/Input';
 import Link from '../../components/Link';
 import PasswordInput from '../../components/PasswordInput';
 import Select, { Options } from '../../components/Select';
-import api, { UserDataRegister } from '../../services/api';
+import api, { UserDataRegister } from '../../services/api/authAPI';
 
 export interface FormDataInput {
 	name: string;

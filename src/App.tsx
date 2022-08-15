@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Plans from './pages/Plans';
 import Register from './pages/Register';
 import Requests from './pages/Requests';
+import React from 'react';
 
 export default function App() {
 	return (

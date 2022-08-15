@@ -6,7 +6,7 @@ import Input from '../../components/Input';
 import Link from '../../components/Link';
 import PasswordInput from '../../components/PasswordInput';
 import useAuth from '../../hooks/useAuth';
-import api from '../../services/api';
+import api from '../../services/api/authAPI';
 
 type FormData = {
 	email: string;
