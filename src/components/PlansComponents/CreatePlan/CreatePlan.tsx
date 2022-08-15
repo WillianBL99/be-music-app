@@ -18,7 +18,7 @@ function CreatePlan() {
 			{ value: 'advanced', label: 'Avançado' },
 		],
 		qtdStudents: [
-			{ value: 'individual', label: 'Individual' },
+			{ value: 'private', label: 'Individual' },
 			{ value: 'group', label: 'Grupo' },
 		],
 	});
@@ -67,7 +67,13 @@ function CreatePlan() {
 
 	const handlePostForm = async (e: any) => {
 		e.preventDefault();
-		console.log(formValues);
+
+		try {
+			await planAPI.postPlan(formValues, config);
+		} catch (error: any) {
+			window.alert(error.message);
+			console.log(error);
+		}
 	};
 
 	const handleGetInstruments = async () => {
@@ -107,21 +113,21 @@ function CreatePlan() {
 					name='level'
 					placeholder='Selecione o nível'
 					options={selectValues.levels}
-					onChange={handleSelect('level')}
+					onChange={handleSelect('classLevel')}
 				/>
 				<Select
 					lable='Instrumento'
 					name='instrument'
 					placeholder='Selecione um instrumento'
 					options={selectValues.instruments}
-					onChange={handleSelect('instruments')}
+					onChange={handleSelect('instrument')}
 				/>
 				<Select
 					lable='Quantidade de alunos'
 					name='qtdStudents'
 					placeholder='Selecione'
 					options={selectValues.qtdStudents}
-					onChange={handleSelect('qtdStudents')}
+					onChange={handleSelect('classType')}
 				/>
 				<div className='available-days'>
 					<p>Dias disponíveis:</p>

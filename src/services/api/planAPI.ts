@@ -10,7 +10,7 @@ export interface Plan {
 }
 
 async function postPlan(data: Plan, headers: any) {
-	const response = await baseAPI.post('/plans', headers);
+	const response = await baseAPI.post('/plans', data, headers);
 	return response.data;
 }
 
