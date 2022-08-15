@@ -9,6 +9,7 @@ import Select, { Options } from '../../components/Select';
 import api, { UserDataRegister } from '../../services/api/authAPI';
 
 export interface FormDataInput {
+	image: string;
 	name: string;
 	email: string;
 	password: string;
@@ -38,6 +39,7 @@ function Register() {
 	];
 
 	const [formData, setFormData] = useState<FormDataInput>({
+		image: '',
 		name: '',
 		email: '',
 		password: '',
@@ -113,6 +115,14 @@ function Register() {
 	return (
 		<form onSubmit={handleSubmit}>
 			<h1>Cadastro</h1>
+			<Input
+				name='image'
+				value={formData.image}
+				onChange={handleInputChange}
+				lable='Foto'
+				type='text'
+				marginBottom='0.8rem'
+			/>
 			<Input
 				name='name'
 				value={formData.name}

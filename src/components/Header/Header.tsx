@@ -1,7 +1,9 @@
 import styled from 'styled-components';
+import useAuth from '../../hooks/useAuth';
 import useHeader from '../../hooks/useHeader';
 
 function Header() {
+	const { userInfo } = useAuth();
 	const { currentPage, setCurrentPage } = useHeader();
 	const pages: any = {
 		home: 'Home',
@@ -17,6 +19,9 @@ function Header() {
 
 	const options = () => {
 		const optionsName = Object.keys(pages);
+		if (!userInfo?.isInstructor) {
+			optionsName.shift();
+		}
 
 		return optionsName.map((option) => {
 			const selected = currentPage === option ? 'selected' : '';

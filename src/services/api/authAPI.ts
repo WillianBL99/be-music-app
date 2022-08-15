@@ -18,8 +18,8 @@ async function signUp(data: UserDataRegister) {
 }
 
 async function signIn(data: UserDataLogin) {
-	const { data: token } = await baseAPI.post('/sign-in', data);
-	return token;
+	const { data: signData } = await baseAPI.post('/sign-in', data);
+	return signData;
 }
 
 async function getStates(): Promise<[]> {
