@@ -71,6 +71,9 @@ function InstructorPlan() {
 		</>
 	);
 }
+
+export default InstructorPlan;
+
 const InstructorBodyProfileContainer = styled.section`
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr));
@@ -83,5 +86,3 @@ const InstructorBodyProfileContainer = styled.section`
 
 	border-top: 1px solid var(--color-low-opacity);
 `;
-
-export default InstructorPlan;

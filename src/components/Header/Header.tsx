@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useAuth from '../../hooks/useAuth';
 import useHeader from '../../hooks/useHeader';
@@ -5,37 +6,45 @@ import useHeader from '../../hooks/useHeader';
 function Header() {
 	const { userInfo } = useAuth();
 	const { currentPage, setCurrentPage } = useHeader();
-	const pages: any = {
-		home: 'Home',
-		request: 'Requisições',
-		plans: 'Planos',
-		instructors: 'Instrutores',
-	};
+	const navigate = useNavigate();
 
-	const handleChangePage = (e: any) => {
-		const value = e.target.attributes.value.nodeValue;
-		setCurrentPage(value);
+	const pages = new Map([
+		['home', { name: 'Home', path: '/app/home' }],
+		['plans', { name: 'Planos', path: '/app/plans' }],
+		['request', { name: 'Solicitações', path: '/app/request' }],
+		['instructors', { name: 'Instrutores', path: '/app/instructors' }],
+	]);
+
+	const handleChangePage = (path: string) => {
+		return (e: any) => {
+			const value = e.target.attributes.value.nodeValue;
+			setCurrentPage(value);
+			navigate(path);
+		};
 	};
 
 	const options = () => {
-		const optionsName = Object.keys(pages);
 		if (!userInfo?.isInstructor) {
-			optionsName.shift();
+			pages.delete('home');
 		}
 
-		return optionsName.map((option) => {
-			const selected = currentPage === option ? 'selected' : '';
-			return (
+		const options: JSX.Element[] = [];
+
+		pages.forEach((page: any) => {
+			const selected = currentPage === page.name ? 'selected' : '';
+			options.push(
 				<Option
-					key={option}
-					value={option}
+					key={page.name}
+					value={page.name}
+					onClick={handleChangePage(page.path)}
 					className={selected}
-					onClick={handleChangePage}
 				>
-					{pages[option]}
+					{page.name}
 				</Option>
 			);
 		});
+
+		return options;
 	};
 
 	return (
