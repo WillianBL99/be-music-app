@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import HeartIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import CommentIcon from '@mui/icons-material/TextsmsOutlined';
 import InfoIcon from '@mui/icons-material/InfoOutlined';
 import UserLogo from '../../UserLogo';
 import MessagesContainer from '../Messages';
 import Info from '../Info';
+import { useState } from 'react';
 
 export interface Comment {
 	id: number;
@@ -34,18 +34,52 @@ export interface PlanProps {
 }
 
 function Plan(props: PlanProps) {
+	const [open, setOpen] = useState<any>({
+		info: false,
+		comments: false,
+	});
+
+	const handleOpen = (type: string) => {
+		return () => {
+			const option = open[type];
+			setOpen({ comments: false, info: false, [type]: !option });
+		};
+	};
+
 	const {
-		Instructor,
-		Comments,
 		image,
-		description,
-		classLevel,
+		Comments,
 		classType,
 		instrument,
+		classLevel,
+		Instructor,
+		description,
 		AvailableDay,
 	} = props;
 
 	const { id, image: userImage, name: userName } = Instructor;
+
+	const footer = (
+		<section className='footer'>
+			<div className='actions'>
+				<CommentIcon onClick={handleOpen('comments')} />
+				<InfoIcon onClick={handleOpen('info')} />
+			</div>
+			<button>Rquerir</button>
+		</section>
+	);
+
+	const comments = open.comments ? (
+		<MessagesContainer listComments={Comments} />
+	) : null;
+	const info = open.info ? (
+		<Info
+			description={description}
+			classLevel={classLevel}
+			instrument={instrument}
+			availableDays={AvailableDay}
+		/>
+	) : null;
 
 	return (
 		<PlanContainer id={`${id}`}>
@@ -56,21 +90,9 @@ function Plan(props: PlanProps) {
 			<div className='img'>
 				<img src={image} alt='banner do plano' />
 			</div>
-			<section className='footer'>
-				<div className='actions'>
-					<HeartIcon />
-					<CommentIcon />
-					<InfoIcon />
-				</div>
-				<button>Rquerir</button>
-			</section>
-			<MessagesContainer listComments={Comments} />
-			<Info
-				description={description}
-				classLevel={classLevel}
-				instrument={instrument}
-				availableDays={AvailableDay}
-			/>
+			{footer}
+			{comments}
+			{info}
 		</PlanContainer>
 	);
 }

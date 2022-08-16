@@ -5,9 +5,6 @@ import useAuth from '../../hooks/useAuth';
 import planAPI from '../../services/api/planAPI';
 
 import Plan, { PlanProps } from '../../components/PlansComponents/Plan/Plan';
-import Header from '../../components/PlansComponents/Header';
-import Backdrop from '../../components/Backdrop';
-import CreatePlan from '../../components/PlansComponents/CreatePlan';
 
 function Plans() {
 	const { token } = useAuth();
