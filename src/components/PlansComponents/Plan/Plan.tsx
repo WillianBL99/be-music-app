@@ -18,12 +18,14 @@ export interface Comment {
 	};
 }
 
-export interface PlanProps {
-	Instructor: {
-		id: number;
-		name: string;
-		image: string;
-	};
+export interface Instructor {
+	id: number;
+	name: string;
+	image: string;
+}
+
+export interface PlanData {
+	Instructor: Instructor;
 	Comments: Comment[];
 	image: string;
 	description: string;
@@ -31,7 +33,10 @@ export interface PlanProps {
 	classType: string;
 	instrument: string;
 	AvailableDay: any;
+	id: number;
 }
+
+export type PlanProps = Omit<PlanData, 'id'> & { planId: number };
 
 function Plan(props: PlanProps) {
 	const [open, setOpen] = useState<any>({
@@ -47,6 +52,7 @@ function Plan(props: PlanProps) {
 	};
 
 	const {
+		planId,
 		image,
 		Comments,
 		classType,
@@ -57,7 +63,7 @@ function Plan(props: PlanProps) {
 		AvailableDay,
 	} = props;
 
-	const { id, image: userImage, name: userName } = Instructor;
+	const { id: instructorId, image: userImage, name: userName } = Instructor;
 
 	const footer = (
 		<section className='footer'>
@@ -70,8 +76,13 @@ function Plan(props: PlanProps) {
 	);
 
 	const comments = open.comments ? (
-		<MessagesContainer listComments={Comments} />
+		<MessagesContainer
+			id={planId}
+			instructor={Instructor}
+			listComments={Comments}
+		/>
 	) : null;
+
 	const info = open.info ? (
 		<Info
 			description={description}
@@ -82,7 +93,7 @@ function Plan(props: PlanProps) {
 	) : null;
 
 	return (
-		<PlanContainer id={`${id}`}>
+		<PlanContainer id={`${instructorId}`}>
 			<section className='header'>
 				<UserLogo image={userImage} size='3.5rem' title={userName} />
 				<p>{classType}</p>

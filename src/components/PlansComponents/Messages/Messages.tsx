@@ -1,30 +1,67 @@
 import SendIcon from '@mui/icons-material/SendOutlined';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { UserInfo } from '../../../contexts/AuthContext';
+import useAuth from '../../../hooks/useAuth';
+import { parseHeader } from '../../../services/api/baseAPI';
+import planAPI from '../../../services/api/planAPI';
 import UserLogo from '../../UserLogo';
 import Message from '../Message/Message';
-import { Comment } from '../Plan/Plan';
+import { Comment, Instructor } from '../Plan/Plan';
 
 type ListComments = {
 	listComments: Comment[];
+	instructor: Instructor;
+	id: number;
 };
 
-function Messages({ listComments }: ListComments) {
+function Messages({ id, listComments, instructor }: ListComments) {
+	const [message, setMessage] = useState('');
+
+	const { userInfo, token } = useAuth();
+	const user = userInfo as UserInfo;
+	const config = parseHeader(token as string);
+
 	const assembleMessages = () => {
 		return listComments.map((comment) => (
 			<Message key={comment.id} comment={comment} />
 		));
 	};
 
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setMessage(e.target.value);
+	};
+
+	const handleSendMessage = () => {
+		try {
+			const commentData = {
+				comment: message,
+				userId: user.userId,
+			};
+
+			console.log(commentData);
+
+			planAPI.postComment(id, commentData, config);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<MessagesContainer>
-			{assembleMessages()}
 			<InputMessageContainer>
-				<UserLogo image='https://europe.yamaha.com/en/files/eg-top-banner-01-770x750_7248009f0c721e107688cfecc9b74d88.jpg?impolicy=resize&imwid=770&imhei=750' />
+				<UserLogo image={user.image} />
 				<div className='input'>
-					<input type='text' placeholder='Digite sua mensagem...' />
-					<SendIcon color='disabled' />
+					<input
+						type='text'
+						placeholder='Digite sua mensagem...'
+						value={message}
+						onChange={handleInputChange}
+					/>
+					<SendIcon color='disabled' onClick={handleSendMessage} />
 				</div>
 			</InputMessageContainer>
+			{assembleMessages()}
 		</MessagesContainer>
 	);
 }

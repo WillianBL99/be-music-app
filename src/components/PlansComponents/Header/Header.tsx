@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { UserInfo } from '../../../contexts/AuthContext';
+import useAuth from '../../../hooks/useAuth';
 import UserLogo from '../../UserLogo';
 
 interface Props {
@@ -6,23 +8,16 @@ interface Props {
 }
 
 function Header({ createPlan }: Props) {
+	const { userInfo } = useAuth();
+	const user = userInfo as UserInfo;
 	return (
 		<InstructorHeaderProfileContainer>
 			<section>
-				<UserLogo
-					image='https://europe.yamaha.com/en/files/eg-top-banner-01-770x750_7248009f0c721e107688cfecc9b74d88.jpg?impolicy=resize&imwid=770&imhei=750'
-					size='4.2rem'
-					title='Joãozinho'
-					describe='20 likes'
-				/>
+				<UserLogo image={user.image} size='4.2rem' title={user.name} />
 				<button onClick={createPlan}>Novo plano</button>
 			</section>
 			<section>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc euismod,
-					nisi euismod consectetur consectetur, nisi nisi consectetur nisi,
-					euismod nisi nisi nisi.
-				</p>
+				<p>{user.instructorData.description}</p>
 			</section>
 		</InstructorHeaderProfileContainer>
 	);

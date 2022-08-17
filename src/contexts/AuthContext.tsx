@@ -1,5 +1,17 @@
 import { createContext, useState } from 'react';
 
+export interface UserInfo {
+	userId: number;
+	image: string;
+	name: string;
+	email: string;
+	isInstructor: boolean;
+	instructorData: {
+		id: number;
+		description: string;
+	};
+}
+
 interface IAuthContext {
 	token: string | null;
 	signIn: (token: string, userInfo: UserInfo) => void;
@@ -26,17 +38,10 @@ const persistUserInfo = () => {
 	return null;
 };
 
-interface UserInfo {
-	userId: string;
-	name: string;
-	email: string;
-	isInstructor: boolean;
-	image: string;
-}
-
 function AuthProvider({ children }: Props) {
 	const [token, setToken] = useState<string | null>(persistToken);
 	const [userInfo, setUserInfo] = useState<UserInfo | null>(persistUserInfo);
+	console.log('userInfo', userInfo);
 
 	const signIn = (token: string, userInfo: UserInfo) => {
 		setToken(token);

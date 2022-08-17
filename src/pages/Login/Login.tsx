@@ -37,6 +37,7 @@ function Login() {
 
 			if (isInstructor) {
 				navigate('app/home');
+				setCurrentPage('home');
 			} else {
 				setCurrentPage('plans');
 				navigate('/app/plans');

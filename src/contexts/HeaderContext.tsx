@@ -1,10 +1,13 @@
 import { useState, createContext } from 'react';
+import useAuth from '../hooks/useAuth';
 
-type Pages = 'home' | 'requests' | 'plans' | 'instructors';
+type PagesName = 'home' | 'requests' | 'plans' | 'instructors';
+export type Pages = Map<PagesName, { name: string; path: string }>;
 
 interface IHeaderContext {
-	currentPage: Pages;
-	setCurrentPage: (page: Pages) => void;
+	pages: Pages;
+	currentPage: PagesName;
+	setCurrentPage: (page: PagesName) => void;
 }
 
 interface Props {
@@ -14,10 +17,24 @@ interface Props {
 const HeaderContext = createContext<IHeaderContext | null>(null);
 
 function HeaderProvider({ children }: Props) {
-	const [currentPage, setCurrentPage] = useState<Pages>('home');
+	const { userInfo } = useAuth();
+	const currentUserIsInstructor = !!userInfo?.isInstructor;
+	const defaultPage = currentUserIsInstructor ? 'home' : 'plans';
+	const [currentPage, setCurrentPage] = useState<PagesName>(defaultPage);
+
+	const pages = new Map<PagesName, { name: string; path: string }>([
+		['home', { name: 'Home', path: '/app/home' }],
+		['plans', { name: 'Planos', path: '/app/plans' }],
+		['requests', { name: 'Solicitações', path: '/app/request' }],
+		['instructors', { name: 'Instrutores', path: '/app/instructors' }],
+	]);
+
+	if (!currentUserIsInstructor) {
+		pages.delete('home');
+	}
 
 	return (
-		<HeaderContext.Provider value={{ currentPage, setCurrentPage }}>
+		<HeaderContext.Provider value={{ pages, currentPage, setCurrentPage }}>
 			{children}
 		</HeaderContext.Provider>
 	);

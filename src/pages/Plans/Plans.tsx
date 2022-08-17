@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import useAuth from '../../hooks/useAuth';
 import planAPI from '../../services/api/planAPI';
 
-import Plan, { PlanProps } from '../../components/PlansComponents/Plan/Plan';
+import Plan, { PlanData } from '../../components/PlansComponents/Plan/Plan';
 
 function Plans() {
 	const { token } = useAuth();
@@ -13,21 +13,20 @@ function Plans() {
 	const [plans, setPlans] = useState([]);
 
 	const assemblyPlans = (): JSX.Element[] => {
-		return plans.map((plan: PlanProps & { id: number }) => {
-			return (
-				<Plan
-					key={plan.id}
-					description={plan.description}
-					classLevel={plan.classLevel}
-					classType={plan.classType}
-					image={plan.image}
-					AvailableDay={plan.AvailableDay}
-					instrument={plan.instrument}
-					Instructor={plan.Instructor}
-					Comments={plan.Comments}
-				/>
-			);
-		});
+		return plans.map((plan: PlanData) => (
+			<Plan
+				key={plan.id}
+				planId={plan.id}
+				description={plan.description}
+				classLevel={plan.classLevel}
+				classType={plan.classType}
+				image={plan.image}
+				AvailableDay={plan.AvailableDay}
+				instrument={plan.instrument}
+				Instructor={plan.Instructor}
+				Comments={plan.Comments}
+			/>
+		));
 	};
 
 	const getPlans = async () => {

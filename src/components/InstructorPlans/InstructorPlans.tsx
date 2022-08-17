@@ -7,10 +7,13 @@ import Backdrop from '../Backdrop';
 import CreatePlan from '../PlansComponents/CreatePlan';
 import Header from '../PlansComponents/Header';
 import Plan from '../PlansComponents/Plan';
-import { PlanProps } from '../PlansComponents/Plan/Plan';
+import { PlanData } from '../PlansComponents/Plan/Plan';
 
 function InstructorPlan() {
-	const { token } = useAuth();
+	const { token, userInfo } = useAuth();
+	const instructorId = userInfo?.instructorData?.id || 0;
+	console.log({ instructorId });
+
 	const config = parseHeader(token as string);
 
 	const [plans, setPlans] = useState([]);
@@ -23,10 +26,11 @@ function InstructorPlan() {
 	) : null;
 
 	const assemblyPlans = (): JSX.Element[] => {
-		return plans.map((plan: PlanProps & { id: number }) => {
+		return plans.map((plan: PlanData) => {
 			return (
 				<Plan
 					key={plan.id}
+					planId={plan.id}
 					description={plan.description}
 					classLevel={plan.classLevel}
 					classType={plan.classType}
@@ -42,7 +46,10 @@ function InstructorPlan() {
 
 	const getPlans = async () => {
 		try {
-			const response = await planAPI.getPlans(config);
+			const response = await planAPI.getPlansByInstructorId(
+				instructorId,
+				config
+			);
 
 			const listPlan = response.plans.map((planData: any) => {
 				return {
