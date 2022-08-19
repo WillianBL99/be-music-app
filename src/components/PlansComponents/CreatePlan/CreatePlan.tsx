@@ -34,6 +34,7 @@ function CreatePlan({ hiddenBackdrop }: Props) {
 		classType: 'private',
 		instrument: '',
 		availableDays: [0, 0, 0, 0, 0, 0, 0],
+		phoneNumber: '',
 	});
 
 	const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,6 +112,13 @@ function CreatePlan({ hiddenBackdrop }: Props) {
 					onChange={handleInput}
 					value={formValues.description}
 					name={'description'}
+				/>
+				<Input
+					type='text'
+					lable='Telefone para contato'
+					onChange={handleInput}
+					value={formValues.phoneNumber}
+					name={'phoneNumber'}
 				/>
 				<Select
 					lable='Nível'

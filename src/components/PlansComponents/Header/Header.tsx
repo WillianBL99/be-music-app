@@ -1,24 +1,50 @@
+import { useState } from 'react';
 import styled from 'styled-components';
-import { UserInfo } from '../../../contexts/AuthContext';
-import useAuth from '../../../hooks/useAuth';
+import useHeader from '../../../hooks/useHeader';
+import Backdrop from '../../Backdrop';
 import UserLogo from '../../UserLogo';
+import CreatePlan from '../CreatePlan';
 
-interface Props {
-	createPlan: () => void;
+export interface HeaderProps {
+	isOwner: boolean;
 }
 
-function Header({ createPlan }: Props) {
-	const { userInfo } = useAuth();
-	const user = userInfo as UserInfo;
+function Header({ isOwner }: HeaderProps) {
+	const [showCreatePlan, setShowCreatePlan] = useState(false);
+	const { headerInstructor } = useHeader();
+
+	if (!headerInstructor) {
+		return <h1>No instructor</h1>;
+	}
+
+	const handleCreatePlan = (state: boolean) => {
+		return () => {
+			setShowCreatePlan(state);
+		};
+	};
+
+	const backdrop = showCreatePlan ? (
+		<Backdrop>
+			<CreatePlan hiddenBackdrop={handleCreatePlan(false)} />
+		</Backdrop>
+	) : null;
+
 	return (
 		<InstructorHeaderProfileContainer>
 			<section>
-				<UserLogo image={user.image} size='4.2rem' title={user.name} />
-				<button onClick={createPlan}>Novo plano</button>
+				<UserLogo
+					image={headerInstructor.User.image}
+					size='4.2rem'
+					title={headerInstructor.User.name}
+				/>
+				<button onClick={handleCreatePlan(true)} hidden={!isOwner}>
+					Novo plano
+				</button>
 			</section>
 			<section>
-				<p>{user.instructorData.description}</p>
+				<p>{headerInstructor.description}</p>
 			</section>
+			{backdrop}
 		</InstructorHeaderProfileContainer>
 	);
 }

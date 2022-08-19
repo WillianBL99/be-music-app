@@ -1,5 +1,5 @@
 import SendIcon from '@mui/icons-material/SendOutlined';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { UserInfo } from '../../../contexts/AuthContext';
 import useAuth from '../../../hooks/useAuth';
@@ -7,16 +7,16 @@ import { parseHeader } from '../../../services/api/baseAPI';
 import planAPI from '../../../services/api/planAPI';
 import UserLogo from '../../UserLogo';
 import Message from '../Message/Message';
-import { Comment, Instructor } from '../Plan/Plan';
+import { Comment } from '../Plan/Plan';
 
 type ListComments = {
-	listComments: Comment[];
-	instructor: Instructor;
 	id: number;
 };
 
-function Messages({ id, listComments, instructor }: ListComments) {
+function Messages({ id }: ListComments) {
+	const { refresh, handleRefresh } = useAuth();
 	const [message, setMessage] = useState('');
+	const [listComments, setListComments] = useState<Comment[]>([]);
 
 	const { userInfo, token } = useAuth();
 	const user = userInfo as UserInfo;
@@ -36,16 +36,29 @@ function Messages({ id, listComments, instructor }: ListComments) {
 		try {
 			const commentData = {
 				comment: message,
-				userId: user.userId,
 			};
 
-			console.log(commentData);
-
 			planAPI.postComment(id, commentData, config);
+			handleRefresh();
+			handleRefresh();
+			setMessage('');
 		} catch (error) {
 			console.log(error);
 		}
 	};
+
+	const getComments = async () => {
+		try {
+			const data = await planAPI.getComments(id, config);
+			setListComments(data.comments);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		getComments();
+	}, [refresh]);
 
 	return (
 		<MessagesContainer>
@@ -57,6 +70,9 @@ function Messages({ id, listComments, instructor }: ListComments) {
 						placeholder='Digite sua mensagem...'
 						value={message}
 						onChange={handleInputChange}
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') handleSendMessage();
+						}}
 					/>
 					<SendIcon color='disabled' onClick={handleSendMessage} />
 				</div>
@@ -93,6 +109,7 @@ const InputMessageContainer = styled.div`
 	width: 100%;
 	height: auto;
 	padding: 0.5rem 1rem;
+	margin-bottom: 1rem;
 	border-radius: calc(var(--border-radius-base) * 0.5);
 	background-color: var(--color-low-opacity);
 

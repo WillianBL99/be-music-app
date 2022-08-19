@@ -5,6 +5,10 @@ import UserLogo from '../../UserLogo';
 import MessagesContainer from '../Messages';
 import Info from '../Info';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { IstructorPageData } from '../../../pages/Instructors/Instructors';
+import RequestPlan from '../RequestPlan.tsx';
+import Backdrop from '../../Backdrop';
 
 export interface Comment {
 	id: number;
@@ -20,8 +24,11 @@ export interface Comment {
 
 export interface Instructor {
 	id: number;
-	name: string;
-	image: string;
+	description: string;
+	User: {
+		name: string;
+		image: string;
+	};
 }
 
 export interface PlanData {
@@ -33,16 +40,39 @@ export interface PlanData {
 	classType: string;
 	instrument: string;
 	AvailableDay: any;
+	phoneNumber: string;
 	id: number;
 }
 
-export type PlanProps = Omit<PlanData, 'id'> & { planId: number };
+export type PlanProps = {
+	planData: PlanData & {
+		isOwner: boolean;
+	};
+};
 
-function Plan(props: PlanProps) {
+function Plan({ planData }: PlanProps) {
 	const [open, setOpen] = useState<any>({
 		info: false,
 		comments: false,
 	});
+	const [hiddenBackdrop, setHiddenBackdrop] = useState(true);
+
+	const {
+		id: planId,
+		isOwner,
+		image,
+		classType,
+		instrument,
+		classLevel,
+		Instructor,
+		description,
+		AvailableDay,
+	} = planData;
+
+	const {
+		id: instructorId,
+		User: { image: userImage, name: userName },
+	} = Instructor;
 
 	const handleOpen = (type: string) => {
 		return () => {
@@ -51,19 +81,16 @@ function Plan(props: PlanProps) {
 		};
 	};
 
-	const {
-		planId,
-		image,
-		Comments,
-		classType,
-		instrument,
-		classLevel,
-		Instructor,
-		description,
-		AvailableDay,
-	} = props;
-
-	const { id: instructorId, image: userImage, name: userName } = Instructor;
+	const handleCreateRequest = () => {
+		return hiddenBackdrop ? null : (
+			<Backdrop>
+				<RequestPlan
+					hiddenBackdrop={() => setHiddenBackdrop(true)}
+					planData={planData}
+				/>
+			</Backdrop>
+		);
+	};
 
 	const footer = (
 		<section className='footer'>
@@ -71,17 +98,13 @@ function Plan(props: PlanProps) {
 				<CommentIcon onClick={handleOpen('comments')} />
 				<InfoIcon onClick={handleOpen('info')} />
 			</div>
-			<button>Rquerir</button>
+			<button hidden={isOwner} onClick={() => setHiddenBackdrop(false)}>
+				Rquerir
+			</button>
 		</section>
 	);
 
-	const comments = open.comments ? (
-		<MessagesContainer
-			id={planId}
-			instructor={Instructor}
-			listComments={Comments}
-		/>
-	) : null;
+	const comments = open.comments ? <MessagesContainer id={planId} /> : null;
 
 	const info = open.info ? (
 		<Info
@@ -92,10 +115,21 @@ function Plan(props: PlanProps) {
 		/>
 	) : null;
 
+	const instructorPageData: IstructorPageData = {
+		isOwner,
+		instructor: Instructor,
+	};
+
 	return (
 		<PlanContainer id={`${instructorId}`}>
+			{handleCreateRequest()}
 			<section className='header'>
-				<UserLogo image={userImage} size='3.5rem' title={userName} />
+				<Link
+					to={`/app/instructors/${instructorId}`}
+					state={instructorPageData}
+				>
+					<UserLogo image={userImage} size='3.5rem' title={userName} />
+				</Link>
 				<p>{classType}</p>
 			</section>
 			<div className='img'>
@@ -141,6 +175,10 @@ const PlanContainer = styled.article`
 			font-size: var(--font-size-small);
 			color: var(--font-color-primary);
 		}
+
+		& > a {
+			text-decoration: none;
+		}
 	}
 
 	& > .img {
@@ -153,7 +191,6 @@ const PlanContainer = styled.article`
 			width: 100%;
 			height: 100%;
 			object-fit: cover;
-			background-size: cover;
 			background-position: center;
 			background-repeat: no-repeat;
 		}

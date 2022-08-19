@@ -27,7 +27,10 @@ export default function App() {
 							<Route path='/app/home' element={<Home />} />
 							<Route path='/app/plans' element={<Plans />} />
 							<Route path='/app/requests' element={<Requests />} />
-							<Route path='/app/instructors' element={<Instructors />} />
+							<Route
+								path='/app/instructors/:instructorId'
+								element={<Instructors />}
+							/>
 							<Route path='/app/*' element={<div>Pagina não encontrada</div>} />
 						</Route>
 						<Route path='*' element={<div>Pagina não encontrada</div>} />

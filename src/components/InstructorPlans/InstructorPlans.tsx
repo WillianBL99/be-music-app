@@ -1,48 +1,20 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import useAuth from '../../hooks/useAuth';
 import { parseHeader } from '../../services/api/baseAPI';
 import planAPI from '../../services/api/planAPI';
-import Backdrop from '../Backdrop';
-import CreatePlan from '../PlansComponents/CreatePlan';
 import Header from '../PlansComponents/Header';
-import Plan from '../PlansComponents/Plan';
-import { PlanData } from '../PlansComponents/Plan/Plan';
+import PlansList from '../PlansComponents/PlansList/PlansList';
 
-function InstructorPlan() {
-	const { token, userInfo } = useAuth();
-	const instructorId = userInfo?.instructorData?.id || 0;
-	console.log({ instructorId });
+export interface InstructorPlansProps {
+	instructorId: number;
+	isOwner: boolean;
+}
 
+function InstructorPlan(props: InstructorPlansProps) {
+	const { token } = useAuth();
 	const config = parseHeader(token as string);
-
+	const { instructorId, isOwner } = props;
 	const [plans, setPlans] = useState([]);
-	const [showCreatePlan, setShowCreatePlan] = useState(false);
-
-	const backdrop = showCreatePlan ? (
-		<Backdrop>
-			<CreatePlan hiddenBackdrop={() => setShowCreatePlan(false)} />
-		</Backdrop>
-	) : null;
-
-	const assemblyPlans = (): JSX.Element[] => {
-		return plans.map((plan: PlanData) => {
-			return (
-				<Plan
-					key={plan.id}
-					planId={plan.id}
-					description={plan.description}
-					classLevel={plan.classLevel}
-					classType={plan.classType}
-					image={plan.image}
-					AvailableDay={plan.AvailableDay}
-					instrument={plan.instrument}
-					Instructor={plan.Instructor}
-					Comments={plan.Comments}
-				/>
-			);
-		});
-	};
 
 	const getPlans = async () => {
 		try {
@@ -51,14 +23,7 @@ function InstructorPlan() {
 				config
 			);
 
-			const listPlan = response.plans.map((planData: any) => {
-				return {
-					...planData,
-					Instructor: planData.Instructor.User,
-				};
-			});
-
-			setPlans(listPlan);
+			setPlans(response.plans);
 		} catch (error) {
 			console.log(error);
 		}
@@ -70,26 +35,10 @@ function InstructorPlan() {
 
 	return (
 		<>
-			<Header createPlan={() => setShowCreatePlan(true)} />
-			<InstructorBodyProfileContainer>
-				{backdrop}
-				{assemblyPlans()}
-			</InstructorBodyProfileContainer>
+			<Header isOwner={isOwner} />
+			<PlansList plansList={plans} />
 		</>
 	);
 }
 
 export default InstructorPlan;
-
-const InstructorBodyProfileContainer = styled.section`
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr));
-	grid-gap: 4rem 2rem;
-
-	width: 100%;
-	height: auto;
-
-	padding-block: 2.5rem;
-
-	border-top: 1px solid var(--color-low-opacity);
-`;

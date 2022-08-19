@@ -17,6 +17,8 @@ interface IAuthContext {
 	signIn: (token: string, userInfo: UserInfo) => void;
 	signOut: () => void;
 	userInfo: UserInfo | null;
+	refresh: boolean;
+	handleRefresh: () => void;
 }
 
 interface Props {
@@ -41,7 +43,11 @@ const persistUserInfo = () => {
 function AuthProvider({ children }: Props) {
 	const [token, setToken] = useState<string | null>(persistToken);
 	const [userInfo, setUserInfo] = useState<UserInfo | null>(persistUserInfo);
-	console.log('userInfo', userInfo);
+	const [refresh, setRefresh] = useState(false);
+
+	const handleRefresh = () => {
+		setRefresh(!refresh);
+	};
 
 	const signIn = (token: string, userInfo: UserInfo) => {
 		setToken(token);
@@ -57,7 +63,9 @@ function AuthProvider({ children }: Props) {
 	};
 
 	return (
-		<AuthContext.Provider value={{ token, signIn, signOut, userInfo }}>
+		<AuthContext.Provider
+			value={{ token, signIn, signOut, userInfo, refresh, handleRefresh }}
+		>
 			{children}
 		</AuthContext.Provider>
 	);

@@ -7,6 +7,7 @@ export interface Plan {
 	classType: 'group' | 'private';
 	instrument: string;
 	availableDays: number[];
+	phoneNumber: string;
 }
 
 async function postPlan(data: Plan, headers: any) {
@@ -29,12 +30,13 @@ async function getPlansByInstructorId(instructorId: number, headers: any) {
 		`/plans?byInstructorId=${instructorId}`,
 		headers
 	);
+
 	return response.data;
 }
 
 async function postComment(
 	planId: number,
-	data: { comment: string; userId: number },
+	data: { comment: string },
 	headers: any
 ) {
 	const response = await baseAPI.post(
@@ -45,12 +47,18 @@ async function postComment(
 	return response.data;
 }
 
+async function getComments(planId: number, headers: any) {
+	const response = await baseAPI.get(`/plans/${planId}/comments`, headers);
+	return response.data;
+}
+
 const planAPI = {
 	postPlan,
 	getInstruments,
 	getPlans,
 	getPlansByInstructorId,
 	postComment,
+	getComments,
 };
 
 export default planAPI;
