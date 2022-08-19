@@ -1,15 +1,17 @@
 import styled from 'styled-components';
 import UserLogo from '../../UserLogo';
+import { Comment } from '../Plan/Plan';
 
-function Message() {
+type MessageProps = { comment: Comment };
+function Message({ comment }: MessageProps) {
+	const { comment: commentMessage, userId, User } = comment;
+
 	return (
-		<MessageContainer>
-			<UserLogo size='2.2rem' />
+		<MessageContainer id={`${userId}`}>
+			<UserLogo image={User.image} size='2.2rem' />
 			<p>
-				<strong>Mariazinha</strong>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc euismod,
-				nisi euismod consectetur consectetur, nisi nisi consectetur nisi,
-				euismod nisi nisi nisi.
+				<strong>{User.name}</strong>
+				{commentMessage}
 			</p>
 		</MessageContainer>
 	);

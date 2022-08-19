@@ -1,37 +1,37 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useHeader from '../../hooks/useHeader';
 
 function Header() {
-	const { currentPage, setCurrentPage } = useHeader();
-	const pages: any = {
-		home: 'Home',
-		request: 'Requisições',
-		plans: 'Planos',
-		instructors: 'Instrutores',
-	};
+	const { currentPage, pages, setCurrentPage } = useHeader();
+	const navigate = useNavigate();
 
-	const handleChangePage = (e: any) => {
-		const value = e.target.attributes.value.nodeValue;
-		setCurrentPage(value);
+	const handleChangePage = (path: string) => {
+		return (e: any) => {
+			const value = e.target.attributes.value.nodeValue;
+			setCurrentPage(value);
+			navigate(path);
+		};
 	};
 
 	const options = () => {
-		const optionsName = Object.keys(pages);
+		const options: JSX.Element[] = [];
 
-		return optionsName.map((option) => {
-			console.log({ currentPage, option });
-			const selected = currentPage === option ? 'selected' : '';
-			return (
+		pages.forEach((page: any, key) => {
+			const selected = currentPage === key ? 'selected' : '';
+			options.push(
 				<Option
-					key={option}
-					value={option}
+					key={key}
+					value={key}
+					onClick={handleChangePage(page.path)}
 					className={selected}
-					onClick={handleChangePage}
 				>
-					{pages[option]}
+					{page.name}
 				</Option>
 			);
 		});
+
+		return options;
 	};
 
 	return (

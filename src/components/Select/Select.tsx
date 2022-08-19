@@ -1,15 +1,6 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 import SelectComponent from 'react-select';
 import styled from 'styled-components';
-
-// const customStyles = {
-// 	container: (provided: any) => ({
-// 		...provided,
-// 		width: '100%',
-// 		marginBottom: '0.4rem',
-// 	}),
-// };
-
 export type Options = { value: any; label: string };
 
 export type Props = {

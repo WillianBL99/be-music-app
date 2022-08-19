@@ -1,8 +1,4 @@
-import axios from 'axios';
-
-const baseAPI = axios.create({
-	baseURL: 'http://localhost:5000',
-});
+import baseAPI from './baseAPI';
 
 export interface UserDataRegister {
 	name: string;
@@ -17,21 +13,13 @@ interface UserDataLogin {
 	password: string;
 }
 
-// function getConfig(token: string) {
-// 	return {
-// 		headers: {
-// 			Authorization: `Bearer ${token}`,
-// 		},
-// 	};
-// }
-
 async function signUp(data: UserDataRegister) {
 	await baseAPI.post('/sign-up', data);
 }
 
 async function signIn(data: UserDataLogin) {
-	const { data: token } = await baseAPI.post('/sign-in', data);
-	return token;
+	const { data: signData } = await baseAPI.post('/sign-in', data);
+	return signData;
 }
 
 async function getStates(): Promise<[]> {
@@ -52,6 +40,6 @@ async function getCities(state: number): Promise<[]> {
 	return cities;
 }
 
-const api = { signUp, signIn, getStates, getCities };
+const authAPI = { signUp, signIn, getStates, getCities };
 
-export default api;
+export default authAPI;

@@ -1,25 +1,50 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import useHeader from '../../../hooks/useHeader';
 import Backdrop from '../../Backdrop';
 import UserLogo from '../../UserLogo';
 import CreatePlan from '../CreatePlan';
 
-function Header() {
+export interface HeaderProps {
+	isOwner: boolean;
+}
+
+function Header({ isOwner }: HeaderProps) {
+	const [showCreatePlan, setShowCreatePlan] = useState(false);
+	const { headerInstructor } = useHeader();
+
+	if (!headerInstructor) {
+		return <h1>No instructor</h1>;
+	}
+
+	const handleCreatePlan = (state: boolean) => {
+		return () => {
+			setShowCreatePlan(state);
+		};
+	};
+
+	const backdrop = showCreatePlan ? (
+		<Backdrop>
+			<CreatePlan hiddenBackdrop={handleCreatePlan(false)} />
+		</Backdrop>
+	) : null;
+
 	return (
 		<InstructorHeaderProfileContainer>
-			<Backdrop>
-				<CreatePlan />
-			</Backdrop>
 			<section>
-				<UserLogo size='4.2rem' title='Joãozinho' describe='20 likes' />
-				<button>Novo plano</button>
+				<UserLogo
+					image={headerInstructor.User.image}
+					size='4.2rem'
+					title={headerInstructor.User.name}
+				/>
+				<button onClick={handleCreatePlan(true)} hidden={!isOwner}>
+					Novo plano
+				</button>
 			</section>
 			<section>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc euismod,
-					nisi euismod consectetur consectetur, nisi nisi consectetur nisi,
-					euismod nisi nisi nisi.
-				</p>
+				<p>{headerInstructor.description}</p>
 			</section>
+			{backdrop}
 		</InstructorHeaderProfileContainer>
 	);
 }

@@ -1,28 +1,53 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import styled from 'styled-components';
 
-function Info() {
+interface Props {
+	description: string;
+	classLevel: string;
+	instrument: string;
+	availableDays: any;
+}
+
+function Info(props: Props) {
+	const { description, classLevel, instrument, availableDays } = props;
+
+	const assemblyDays = (): JSX.Element[] => {
+		const days: any = {
+			sun: 'dom',
+			mon: 'seg',
+			tue: 'ter',
+			wed: 'qua',
+			thu: 'qui',
+			fri: 'sex',
+			sat: 'sab',
+		};
+		const listAvailableDays: JSX.Element[] = [];
+
+		for (const day in availableDays) {
+			if (availableDays[day]) {
+				listAvailableDays.push(<li>{days[day]}</li>);
+			}
+		}
+
+		return listAvailableDays;
+	};
+
 	return (
 		<InfoContainer>
-			<p className='description'>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit.
-			</p>
+			<p className='description'>{description}</p>
 			<div className='level'>
 				<p>Nivel:</p>
-				<span>Iniciante</span>
+				<span>{classLevel}</span>
 			</div>
 			<div className='instruments'>
-				<p>Instrumentos:</p>
+				<p>Instrumento:</p>
 				<ul>
-					<li>Guitar</li>
-					<li>Piano</li>
+					<li>{instrument}</li>
 				</ul>
 			</div>
 			<div className='available-days'>
 				<p>Dias disponíveis:</p>
-				<ul>
-					<li>seg</li>
-					<li>ter</li>
-				</ul>
+				<ul>{assemblyDays()}</ul>
 			</div>
 		</InfoContainer>
 	);
@@ -45,6 +70,25 @@ const InfoContainer = styled.article`
 	font-size: var(--font-size-small);
 	color: var(--color-primary);
 
+	& > div {
+		display: flex;
+		flex-wrap: wrap;
+		width: 100%;
+		margin-bottom: var(--margin);
+
+		p {
+			font-weight: var(--font-weight-bold);
+			margin-right: 0.5rem;
+		}
+
+		ul {
+			display: flex;
+			flex-direction: row;
+			justify-content: start;
+			align-items: center;
+		}
+	}
+
 	& span,
 	li {
 		background-color: var(--color-low-opacity);
@@ -54,28 +98,7 @@ const InfoContainer = styled.article`
 		margin-right: 0.8rem;
 	}
 
-	& > div > ul {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	& > div > p {
-		font-weight: var(--font-weight-bold);
-		margin-right: 0.5rem;
-	}
-
-	& > div {
-		display: flex;
-		width: 100%;
-		margin-bottom: var(--margin);
-	}
-
-	& > .description {
-		margin-bottom: var(--margin);
-	}
-
+	& > .description,
 	& > .level {
 		margin-bottom: var(--margin);
 	}

@@ -6,7 +6,8 @@ import Input from '../../components/Input';
 import Link from '../../components/Link';
 import PasswordInput from '../../components/PasswordInput';
 import useAuth from '../../hooks/useAuth';
-import api from '../../services/api';
+import useHeader from '../../hooks/useHeader';
+import api from '../../services/api/authAPI';
 
 type FormData = {
 	email: string;
@@ -16,6 +17,7 @@ type FormData = {
 function Login() {
 	const navigate = useNavigate();
 	const { signIn } = useAuth();
+	const { setCurrentPage } = useHeader();
 	const [formData, setFormData] = useState<FormData>({
 		email: '',
 		password: '',
@@ -29,10 +31,17 @@ function Login() {
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 		try {
-			const { token } = await api.signIn(formData);
-			console.log({ token });
-			signIn(token);
-			navigate('app/home');
+			const { token, userData } = await api.signIn(formData);
+			signIn(token, userData);
+			const { isInstructor } = userData;
+
+			if (isInstructor) {
+				navigate('app/home');
+				setCurrentPage('home');
+			} else {
+				setCurrentPage('plans');
+				navigate('/app/plans');
+			}
 		} catch (error: any) {
 			if (error.response.status === 401) {
 				alert('Usuário ou senha inválidos');

@@ -1,32 +1,143 @@
 import styled from 'styled-components';
-import HeartIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import CommentIcon from '@mui/icons-material/TextsmsOutlined';
 import InfoIcon from '@mui/icons-material/InfoOutlined';
 import UserLogo from '../../UserLogo';
 import MessagesContainer from '../Messages';
 import Info from '../Info';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { IstructorPageData } from '../../../pages/Instructors/Instructors';
+import RequestPlan from '../RequestPlan.tsx';
+import Backdrop from '../../Backdrop';
 
-function Plan() {
+export interface Comment {
+	id: number;
+	comment: string;
+	createdAt: string;
+	planId: number;
+	userId: number;
+	User: {
+		image: string;
+		name: string;
+	};
+}
+
+export interface Instructor {
+	id: number;
+	description: string;
+	User: {
+		name: string;
+		image: string;
+	};
+}
+
+export interface PlanData {
+	Instructor: Instructor;
+	Comments: Comment[];
+	image: string;
+	description: string;
+	classLevel: string;
+	classType: string;
+	instrument: string;
+	AvailableDay: any;
+	phoneNumber: string;
+	id: number;
+}
+
+export type PlanProps = {
+	planData: PlanData & {
+		isOwner: boolean;
+	};
+};
+
+function Plan({ planData }: PlanProps) {
+	const [open, setOpen] = useState<any>({
+		info: false,
+		comments: false,
+	});
+	const [hiddenBackdrop, setHiddenBackdrop] = useState(true);
+
+	const {
+		id: planId,
+		isOwner,
+		image,
+		classType,
+		instrument,
+		classLevel,
+		Instructor,
+		description,
+		AvailableDay,
+	} = planData;
+
+	const {
+		id: instructorId,
+		User: { image: userImage, name: userName },
+	} = Instructor;
+
+	const handleOpen = (type: string) => {
+		return () => {
+			const option = open[type];
+			setOpen({ comments: false, info: false, [type]: !option });
+		};
+	};
+
+	const handleCreateRequest = () => {
+		return hiddenBackdrop ? null : (
+			<Backdrop>
+				<RequestPlan
+					hiddenBackdrop={() => setHiddenBackdrop(true)}
+					planData={planData}
+				/>
+			</Backdrop>
+		);
+	};
+
+	const footer = (
+		<section className='footer'>
+			<div className='actions'>
+				<CommentIcon onClick={handleOpen('comments')} />
+				<InfoIcon onClick={handleOpen('info')} />
+			</div>
+			<button hidden={isOwner} onClick={() => setHiddenBackdrop(false)}>
+				Rquerir
+			</button>
+		</section>
+	);
+
+	const comments = open.comments ? <MessagesContainer id={planId} /> : null;
+
+	const info = open.info ? (
+		<Info
+			description={description}
+			classLevel={classLevel}
+			instrument={instrument}
+			availableDays={AvailableDay}
+		/>
+	) : null;
+
+	const instructorPageData: IstructorPageData = {
+		isOwner,
+		instructor: Instructor,
+	};
+
 	return (
-		<PlanContainer>
+		<PlanContainer id={`${instructorId}`}>
+			{handleCreateRequest()}
 			<section className='header'>
-				<UserLogo size='3rem' title='Mariazinha' />
-				<p>Aulas individuais</p>
+				<Link
+					to={`/app/instructors/${instructorId}`}
+					state={instructorPageData}
+				>
+					<UserLogo image={userImage} size='3.5rem' title={userName} />
+				</Link>
+				<p>{classType}</p>
 			</section>
-			<img
-				src='https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'
-				alt='user-logo'
-			/>
-			<section className='footer'>
-				<div className='actions'>
-					<HeartIcon />
-					<CommentIcon />
-					<InfoIcon />
-				</div>
-				<button>Rquerir</button>
-			</section>
-			{/* <MessagesContainer /> */}
-			{/* <Info /> */}
+			<div className='img'>
+				<img src={image} alt='banner do plano' />
+			</div>
+			{footer}
+			{comments}
+			{info}
 		</PlanContainer>
 	);
 }
@@ -61,20 +172,28 @@ const PlanContainer = styled.article`
 		background-color: var(--color-tertiary);
 
 		& > p {
-			font-size: var(--font-size-tiny);
+			font-size: var(--font-size-small);
 			color: var(--font-color-primary);
+		}
+
+		& > a {
+			text-decoration: none;
 		}
 	}
 
-	& > img {
+	& > .img {
 		--height: calc(20px + 1px);
 		width: 100%;
 		aspect-ratio: calc(16 / 9);
+		overflow: hidden;
 
-		object-fit: cover;
-		background-size: cover;
-		background-position: center;
-		background-repeat: no-repeat;
+		& > img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
 	}
 
 	& > .footer {
