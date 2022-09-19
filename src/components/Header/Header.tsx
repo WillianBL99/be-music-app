@@ -54,9 +54,19 @@ const HeaderContainer = styled.header`
 	width: 100%;
 	height: auto;
 	padding-block: 2rem;
+	z-index: 5;
 
 	padding-inline: var(--padding-inline-page);
+	box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
 	background-color: var(--color-base);
+
+	@media (max-width: 580px) {
+		order: 1;
+
+		& > div:first-child {
+			display: none;
+		}
+	}
 
 	& > ul {
 		display: flex;
